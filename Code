@@ -22,7 +22,7 @@ circle = plt.Circle(xy=(0, 0), radius=0.5, facecolor='white', edgecolor="k", lin
 plt.gca().add_artist(circle)
 
 plt.show()
-
+###Figure 1-1
 
 
 
@@ -37,6 +37,9 @@ circle = plt.Circle(xy=(0, 0), radius=0.5, facecolor='white', edgecolor="k", lin
 plt.gca().add_artist(circle)
 
 plt.show()
+###Figure 2
+
+
 
 stocks_US = pd.read_csv('C:/Users.../US_stock.csv', sep=';')
 stocks_US.set_index('Date', inplace=True)
@@ -62,6 +65,8 @@ ax[1].set_ylabel('SP500_returns')
 ax[2].plot(EU_returns,  color='green', antialiased=True)
 ax[2].set_ylabel('EU_returns')
 plt.show()
+###Figure 3
+
 
 print(np.std(DRG_returns), np.std(SP500_returns), np.std(EU_returns))
 
