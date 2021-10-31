@@ -1,0 +1,96 @@
+#A new potential startup would like to have some information about pharmaceutical market in order to be very functional and fluent. 
+#In order to survive in their first years it gathered very useful data related to this topic. My role was to show everything in the good looking shape.
+
+#The first assumption was to create a plot which could provide some insights about drugs needed for treatment the particular diseases - 
+#the company would like to know which type of diseases are the most profitable for treatment.
+#The second assumption was to check the volatility of the pharma index on US stock exchange in relation to SP500 and Euronext-
+#this could explain if the whole pharma business is worth to engage and on which market (less volatile),
+#based on standard deviations measurements. 
+
+import matplotlib.pyplot as plt
+import pandas as pd
+import scipy.stats as stat
+import numpy as np
+
+US_data = pd.read_csv('C:/Users.../Data US - death causes.csv', sep=';')
+EU_data = pd.read_csv('C:/Users.../Data EU - death causes.csv', sep=';')
+
+US_subset = US_data.iloc[0, 0:10]
+US_subset2 = US_data.values.sum()
+EU_subset = EU_data.iloc[0, 0:8]
+US = US_subset.div(US_subset2)
+labels = US_data.columns
+
+explode = [0.15] * 10
+textprops = {"fontsize": 11}
+
+plt.pie(x=US_subset, labels=labels, shadow=True, autopct='%.1f%%', radius=1.2, pctdistance=0.75, wedgeprops={"edgecolor": "black", 'linewidth': 1, 'antialiased': True}, explode=explode, textprops=textprops)
+
+circle = plt.Circle(xy=(0, 0), radius=0.5, facecolor='white', edgecolor="k", linewidth=1.5)
+
+plt.gca().add_artist(circle)
+
+plt.show()
+
+
+
+
+labels2 = EU_data.columns
+explode2 = [0.15] * 8
+textprops = {"fontsize": 11}
+
+plt.pie(x=EU_subset, labels=labels2, shadow=True, autopct='%.1f%%', radius=1.2, pctdistance=0.75, wedgeprops={"edgecolor": "black", 'linewidth': 1, 'antialiased': True}, explode=explode2, textprops=textprops)
+
+circle = plt.Circle(xy=(0, 0), radius=0.5, facecolor='white', edgecolor="k", linewidth=1.5)
+
+plt.gca().add_artist(circle)
+
+plt.show()
+
+stocks_US = pd.read_csv('C:/Users.../US_stock.csv', sep=';')
+stocks_US.set_index('Date', inplace=True)
+stocks_US.index = pd.to_datetime(stocks_US.index)
+stocks_US = stocks_US.resample("1M").mean()
+
+stocks_EU = pd.read_csv(''C:/Users.../EU_stock.csv', sep=';')
+
+stocks_EU.set_index('Date', inplace=True)
+stocks_EU.index = pd.to_datetime(stocks_EU.index)
+stocks_EU = stocks_EU.resample("1M").mean()
+
+DRG_returns = stocks_US['DRG'] / stocks_US['DRG'].shift(1) - 1
+SP500_returns = stocks_US['SP 500'] / stocks_US['SP 500'].shift(1) - 1
+
+EU_returns = stocks_EU['EURONEXT'] / stocks_EU['EURONEXT'].shift(1) - 1
+
+fig, ax = plt.subplots(3)
+ax[0].plot(DRG_returns, antialiased=True)
+ax[0].set_ylabel('DRG_returns')
+ax[1].plot(SP500_returns, color='red', antialiased=True)
+ax[1].set_ylabel('SP500_returns')
+ax[2].plot(EU_returns,  color='green', antialiased=True)
+ax[2].set_ylabel('EU_returns')
+plt.show()
+
+print(np.std(DRG_returns), np.std(SP500_returns), np.std(EU_returns))
+
+
+#The standard deviation values are as followed:
+#Pharma index: 0.027
+
+#US - SP500: 0.038
+
+#EU - Euronext: 0.047
+
+#That means directly that 1) Pharma index is less volatile that both stocks and 2) 
+#the better option is to invest in US market due to less risk exposition.
+
+#My recommendation is to invest in circulatory system and cancer medicines production on US market more that in Europe. 
+#However the company should also plan some additional business activities to be consistent on the market due to the fact of large economic uncertainty.
+
+
+
+
+
+
+
